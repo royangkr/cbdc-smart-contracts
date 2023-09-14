@@ -22,9 +22,10 @@ const deployFunction: DeployFunction = async ({ getNamedAccounts, deployments })
     from: PBMDeployer,
     args: [
       dsgdContractAddress,
-      'PBM Sample Token (Non Upgradeable)',
+      'PBM (Non Upgradeable, Non Transferable)',
       'XPBM',
       deploymentConfig[chainId].expiryDate,
+      false
     ],
     // Defaults to 1 confirmation, assuming that network deployed to is local testnet
     waitConfirmations: deploymentConfig[chainId].waitForConfirmations || 1,
@@ -37,9 +38,10 @@ const deployFunction: DeployFunction = async ({ getNamedAccounts, deployments })
       address: pbmContract.address,
       args: [
         dsgdContractAddress,
-        'PBM Sample Token (Non Upgradeable)',
+        'PBM (Non Upgradeable, Non Transferable)',
         'XPBM',
         deploymentConfig[chainId].expiryDate,
+        false
       ],
     })
   }

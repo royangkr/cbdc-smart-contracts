@@ -13,7 +13,7 @@ export const deploymentConfig: { [chainId: string]: DeploymentConfigItem } = {
   default: {
     name: 'hardhat',
     type: 'local-net',
-    expiryDate: getUnixTimestamp('2025-01-01T00:00:00+08'),
+    expiryDate: getUnixTimestamp('2025-01-01T08:00:00+08'),
   },
   31337: {
     name: 'localhost',
@@ -22,7 +22,7 @@ export const deploymentConfig: { [chainId: string]: DeploymentConfigItem } = {
   },
   80001: {
     name: 'polygonMumbai',
-    underlyingTokenAddress: '0x81F00542e82e456001196f8c3c747fC1A5dDca80',
+    underlyingTokenAddress: '0x05Cd29B55352543171cC024a64AD9c478594936a',
     type: 'test-net',
     waitForConfirmations: 6,
     expiryDate: getUnixTimestamp('2023-01-01T08:00:00+08'),

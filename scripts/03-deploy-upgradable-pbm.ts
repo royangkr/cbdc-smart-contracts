@@ -21,7 +21,7 @@ const deployFunction: DeployFunction = async ({ deployments }) => {
 
   const pbmContract = await upgrades.deployProxy(
     Pbm,
-    [dsgdContractAddress, 'PBM Sample Token', 'XPBM', tentativeExpiryDate],
+    [dsgdContractAddress, 'PBM Sample Token', 'XPBM', tentativeExpiryDate,false],
     { kind: 'transparent' }
   )
 

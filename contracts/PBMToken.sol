@@ -19,6 +19,7 @@ contract PBMToken is ERC20Pausable, AccessControl, IPBM {
     address public immutable owner;
 
     uint256 public contractExpiry;
+    bool public transferAllowed;
 
     // RBAC related constants
     bytes32 public constant MERCHANT_ROLE = keccak256("MERCHANT_ROLE");
@@ -43,7 +44,8 @@ contract PBMToken is ERC20Pausable, AccessControl, IPBM {
         address _underlyingAddress,
         string memory _name,
         string memory _symbol,
-        uint256 _contractExpiry
+        uint256 _contractExpiry,
+        bool _transferAllowed
     ) ERC20(_name, _symbol) {
         owner = _msgSender();
         // Initialises the base DSGD token
@@ -55,6 +57,7 @@ contract PBMToken is ERC20Pausable, AccessControl, IPBM {
 
         // Sets the contract expiry
         contractExpiry = _contractExpiry;
+        transferAllowed=_transferAllowed;
     }
 
     /**
@@ -135,6 +138,26 @@ contract PBMToken is ERC20Pausable, AccessControl, IPBM {
         _unpause();
     }
 
+    /**
+     * @dev Allows transfer between wallets
+     *
+     * Caller has to be owner
+     *
+     */
+    function allowTransfer() external onlyOwner {
+        transferAllowed=true;
+    }
+
+    /**
+     * @dev Disallows transfer between wallets
+     *
+     * Caller has to be owner
+     *
+     */
+    function disallowTransfer() external onlyOwner {
+        transferAllowed=false;
+    }
+
     /// @dev Implemented as a wrapper of {AccessControl}
     /// @inheritdoc	IPBM
     function revokeMerchantRole(address account) external {
@@ -197,5 +220,9 @@ contract PBMToken is ERC20Pausable, AccessControl, IPBM {
         uint256 tokenId
     ) internal virtual override(ERC20Pausable) whenNotExpired {
         super._beforeTokenTransfer(from, to, tokenId);
+
+        if (!transferAllowed){
+            require(from==address(0) || to==address(0), "transfer between wallets not allowed");
+        }
     }
 }

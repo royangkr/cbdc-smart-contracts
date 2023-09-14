@@ -19,6 +19,7 @@ contract PBMTokenUpgradeable is ERC20PausableUpgradeable, AccessControlUpgradeab
     address public owner;
 
     uint256 public contractExpiry;
+    bool public transferAllowed;
 
     // RBAC related constants
     bytes32 public constant MERCHANT_ROLE = keccak256("MERCHANT_ROLE");
@@ -43,7 +44,8 @@ contract PBMTokenUpgradeable is ERC20PausableUpgradeable, AccessControlUpgradeab
         address _underlyingAddress,
         string memory _name,
         string memory _symbol,
-        uint256 _contractExpiry
+        uint256 _contractExpiry,
+        bool _transferAllowed
     ) public initializer {
         __ERC20_init(_name, _symbol);
 
@@ -57,6 +59,7 @@ contract PBMTokenUpgradeable is ERC20PausableUpgradeable, AccessControlUpgradeab
 
         // Sets the contract expiry
         contractExpiry = _contractExpiry;
+        transferAllowed=_transferAllowed;
     }
 
     /**
@@ -137,6 +140,26 @@ contract PBMTokenUpgradeable is ERC20PausableUpgradeable, AccessControlUpgradeab
         _unpause();
     }
 
+    /**
+     * @dev Allows transfer between wallets
+     *
+     * Caller has to be owner
+     *
+     */
+    function allowTransfer() external onlyOwner {
+        transferAllowed=true;
+    }
+
+    /**
+     * @dev Disallows transfer between wallets
+     *
+     * Caller has to be owner
+     *
+     */
+    function disallowTransfer() external onlyOwner {
+        transferAllowed=false;
+    }
+
     /// @dev Implemented as a wrapper of {AccessControl}
     /// @inheritdoc	IPBMUpgradeable
     function revokeMerchantRole(address account) external {
@@ -199,5 +222,9 @@ contract PBMTokenUpgradeable is ERC20PausableUpgradeable, AccessControlUpgradeab
         uint256 tokenId
     ) internal virtual override(ERC20PausableUpgradeable) whenNotExpired {
         super._beforeTokenTransfer(from, to, tokenId);
+
+        if (!transferAllowed){
+            require(from==address(0) || to==address(0), "transfer between wallets not allowed");
+        }
     }
 }

@@ -185,6 +185,7 @@ describe('PBM', () => {
     it('should be pausable by owner', async () => {
       const { resident, merchant, pbmToken, pbmDeployer } = await seedWalletStates()
       await pbmToken.connect(pbmDeployer).pause()
+      await pbmToken.connect(pbmDeployer).allowTransfer()
 
       // Assertions
 
@@ -334,12 +335,8 @@ describe('PBM', () => {
 
   describe('transfers', () => {
     it('can transfer to another identity', async () => {
-      const {
-        pbmToken,
-        resident: firstResident,
-        merchant: secondResident,
-      } = await seedWalletStates()
-
+      const { resident:firstResident, merchant:secondResident, pbmToken, pbmDeployer } = await seedWalletStates()
+      await pbmToken.connect(pbmDeployer).allowTransfer()
       // Transfers to a second resident
       const pbmTransfer = pbmToken
         .connect(firstResident)

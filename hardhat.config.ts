@@ -9,6 +9,7 @@ import 'hardhat-deploy'
 import '@openzeppelin/hardhat-upgrades'
 
 import { getPrivateKeyForRole } from './helpers/network'
+require('dotenv').config()
 
 // RPC Envs
 const POLYGON_RPC_URL = process.env.POLYGON_RPC_URL || ''

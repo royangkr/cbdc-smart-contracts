@@ -46,9 +46,10 @@ const deployFunction: DeployFunction = async ({ deployments }) => {
       PbmUpgradeableToken,
       [
         dsgdContractAddress,
-        'PBM Sample Token (Upgradeable)',
+        'PBM (Upgradeable, Non Transferable)',
         'XPBM',
         deploymentConfig[chainId].expiryDate,
+        false
       ],
       { kind: 'transparent' }
     )

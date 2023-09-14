@@ -1,3 +1,7 @@
+## Proposed Change
+
+Add a `transferAllowed` boolean to PBMToken to control whether transfer of token between wallets is allowed. Allows for optional transfer stage as described in [PBM Whitepaper](https://www.mas.gov.sg/-/media/mas-media-library/development/fintech/pbm/pbm-technical-whitepaper.pdf) (page 10).
+
 <h1 align="center">
   <br>
   <a href="https://github.com/opengovsg/cbdc-smart-contracts/wiki" width="2000"><img src="https://user-images.githubusercontent.com/28633094/205862423-648d3290-a9fe-46aa-9730-f88857bad81b.png" alt="OGP PBM Token"  width="200"></a>
@@ -35,20 +39,20 @@ This project requires the NodeJS environment `> 14.0`, along with either yarn/np
 ### Setting up
 
 #### Environment variables
-An `.env.example` file has been added to provide a template for the environment variables required to get you up to speed. Refer to the table below for the purposes of these variables.
+An `.env.example` file has been added to provide a template for the environment variables required to get you up to speed. Refer to the table below for the purposes of these variables. Create a `.env` file in the root directory and populate with the required environment variables.
 
 | Name                      | Description                                                                                                                     | Required |
 |---------------------------|---------------------------------------------------------------------------------------------------------------------------------|----------|
 | PBM_DEPLOYER_PRIVATE_KEY  | Private key to be used for deploying the PBM Contract                                                                           | Y        |
 | DSGD_DEPLOYER_PRIVATE_KEY | Private key to be used for deploying the DSGD Contract                                                                          | Y        |
-| POLYGON_RPC_URL           | RPC url used for the Polygon testnet/mainnet networks. It is recommended to create a dedicated RPC. More details provided below | Y        |
+| POLYGON_RPC_URL           | RPC url used for the Polygon testnet/mainnet networks. It is recommended to create a dedicated RPC | Y        |
 | POLYGONSCAN_API_KEY       | Polygonscan key used for verifying contracts on the polygonscan explorer (only for Polygon Mainnet/Mumbai Testnet)              | N        |
 | COIN_MARKET_API_KEY       | API key for the CoinMarket API. This is used for calculating gas fees in FIAT currency specified (SGD)                          | N        |
 
 
 ## Usage
 
-CBDC Contracts have been developed with the [hardhat](https://hardhat.org/) development framework. Hardhat provides a series of built-in plugins, which include gas reporting, chai test helpers and network helpers as part of the hardhat-toolbox. 
+PBM Contracts have been developed with the [hardhat](https://hardhat.org/) development framework. Hardhat provides a series of built-in plugins, which include gas reporting, chai test helpers and network helpers as part of the hardhat-toolbox. 
 
 
 
@@ -75,6 +79,10 @@ Deployments should only be run after the necessary required environment variable
 #   npm run deploy --{tags}
    ```
 For local deployments and tests, default hardhat node accounts are used. 
+
+   ```sh
+   npm hardhat node # for local only
+   ```
 
 
 **Additional Information**
